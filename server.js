@@ -10,6 +10,16 @@ dotenv.config()
 
 const app = express()
 
+const db = process.env.DB_CONNECT
+mongoose
+  .connect(db, {
+    useNewUrlParser: true,
+
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+  })
+  .then(() => console.log('MongoDB Connected'))
+  .catch((err) => console.log(err))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
