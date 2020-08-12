@@ -1,43 +1,43 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import { Provider } from 'react-redux'
+import { Route, BrowserRouter as Router, Switch } from 'react-router-dom'
 
-export default class App extends Component {
-  constructor(props) {
-    super(props)
+import setUserToken from './utils/setUserToken'
 
-    this.state = {
-      users: [],
-    }
-  }
+import jwt_decode from 'jwt-decode'
 
-  componentDidMount() {
-    axios
-      .get('/api/users')
-      .then((res) => {
-        console.log(res.data)
-        this.setState({
-          users: res.data.users,
-        })
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  }
+import store from './store'
+
+import Landing from './components/Landing/Landing'
+import Login from './components/Auth/Login'
+import Register from './components/Auth/Register'
+import Dashboard from './components/Auth/Dashboard'
+import DashboardAccount from './components/Auth/DashboardAccount'
+
+import Navigation from './components/Nav/Navigation'
+import 'bootstrap/dist/css/bootstrap.min.css'
+
+class App extends Component {
   render() {
-    let { users } = this.state
-    if (users === undefined || users.length === 0) {
-      return (
-        <div>
-          <h1>no users</h1>
-        </div>
-      )
-    } else {
-      let renderUsersNames = users.map((user) => (
-        <div key={user._id}>
-          <p>{user.name}</p>
-        </div>
-      ))
-      return <div>{renderUsersNames}</div>
-    }
+    return (
+      <Provider store={store}>
+        <Router>
+          <Navigation />
+          <Switch>
+            <Route exact path='/' component={Landing} />
+            <Route exact path='/login' component={Login} />
+            <Route exact path='/register' component={Register} />
+            <Route exact path='/dashboard' component={Dashboard} />
+            <Route
+              exact
+              path='/dashboard/account'
+              component={DashboardAccount}
+            />
+          </Switch>
+        </Router>
+      </Provider>
+    )
   }
 }
+export default App
