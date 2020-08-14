@@ -11,6 +11,7 @@ dotenv.config()
 const app = express()
 
 const db = process.env.DB_CONNECT
+console.log(db);
 mongoose
   .connect(db, {
     useNewUrlParser: true,
@@ -31,7 +32,8 @@ app.use((req, res, next) => {
 })
 
 const users = require('./api/v1/routes/users')
-app.use('/api/users', users)
+const products = require('./api/v1/routes/products')
+app.use('/api/products', products)
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'))
   const path = require('path')

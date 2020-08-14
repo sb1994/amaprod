@@ -14,6 +14,8 @@ import Login from './components/Auth/Login'
 import Register from './components/Auth/Register'
 import Dashboard from './components/Auth/Dashboard'
 import DashboardAccount from './components/Auth/DashboardAccount'
+import ProductDetail from './components/Products/ProductDetail'
+// import DashboardAccount from './components/Auth/DashboardAccount'
 
 import Navigation from './components/Nav/Navigation'
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -29,6 +31,7 @@ class App extends Component {
             <Route exact path='/login' component={Login} />
             <Route exact path='/register' component={Register} />
             <Route exact path='/dashboard' component={Dashboard} />
+            <Route exact path='/products/:id' component={ProductDetail} />
             <Route
               exact
               path='/dashboard/account'

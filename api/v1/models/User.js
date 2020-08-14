@@ -25,7 +25,8 @@ const UserSchema = new Schema({
     type: String
   },
   status: {
-    type: String
+    type: String,
+    default:'Customer'
   },
   bio: {
     type: String

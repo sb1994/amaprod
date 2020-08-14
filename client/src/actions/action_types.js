@@ -6,6 +6,11 @@ export const FAIL_AUTH = 'FAIL_AUTH'
 export const LOGOUT_AUTH = 'LOGOUT_AUTH'
 export const SET_LOGGED_USER = 'SET_LOGGED_USER'
 
+//product action
+export const GET_PRODUCTS = 'GET_PRODUCTS'
+export const GET_PRODUCT = 'GET_PRODUCT'
+
+
 export const SET_CURRENT_USER = 'SET_CURRENT_USER'
 export const UPDATE_CURRENT_USER = 'UPDATE_CURRENT_USER'
 export const UPDATE_CURRENT_USER_SUCCESS = 'UPDATE_CURRENT_USER_SUCCESS'
