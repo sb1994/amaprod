@@ -3,6 +3,12 @@ import { connect } from 'react-redux'
 import { getSelectedProduct } from '../../actions/productActions'
 
 export class ProductDetail extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {}
+  }
+
   componentDidMount() {
     this.props.getSelectedProduct(this.props.match.params.id)
   }

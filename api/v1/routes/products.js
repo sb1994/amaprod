@@ -3,9 +3,10 @@ const router = express.Router()
 const Product = require('../models/Product')
 
 router.get('/', (req, res) => {
+  // let number
   Product.find({})
     .then((products) => {
-      res.json(products)
+      res.json({ totalCount: products.length, products: products })
     })
     .catch((err) => res.json(err))
 })

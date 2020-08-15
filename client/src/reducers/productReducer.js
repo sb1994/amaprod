@@ -1,13 +1,9 @@
-import {
-  GET_PRODUCTS,
-  GET_PRODUCT,  
-} from '../actions/action_types'
-
-
+import { GET_PRODUCTS, GET_PRODUCT } from '../actions/action_types'
 
 const initialState = {
   product: {},
   products: [],
+  productCount: '',
 }
 
 const product = (state = initialState, action) => {
@@ -15,7 +11,8 @@ const product = (state = initialState, action) => {
     case GET_PRODUCTS:
       return {
         ...state,
-        products: action.payload,
+        products: action.payload.products,
+        productCount: action.payload.totalCount,
       }
     case GET_PRODUCT:
       return {
