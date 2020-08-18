@@ -2,7 +2,7 @@ let fs = require("fs");
 const mongoose = require("mongoose");
 const Product = require("./api/v1/models/Product");
 let products_data = JSON.parse(fs.readFileSync("./data/results.json", "utf8"));
-console.log(products_data[0]);
+// console.log(products_data[0]);
 // console.log(products_data[0].);
 const db = "mongodb://127.0.0.1:27017/amaprod";
 mongoose
@@ -26,7 +26,7 @@ for (let i = 0; i < 1000; i++) {
     url: product.url,
     image: product.image,
   });
-  console.log(newProduct);
+  // console.log(newProduct);
   newProduct
     .save()
     .then((post) => {
@@ -36,6 +36,7 @@ for (let i = 0; i < 1000; i++) {
       console.log(err);
     });
 }
+
 //raw data
 // console.log(products_data);
 // Product.find({})
