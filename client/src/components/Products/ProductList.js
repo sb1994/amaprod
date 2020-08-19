@@ -8,6 +8,7 @@ export class ProductList extends Component {
 
     this.state = {
       searchText: "",
+      products: [],
     };
   }
   componentDidMount() {
@@ -19,6 +20,7 @@ export class ProductList extends Component {
 
   //   history.
   // }
+
   handleSearchInput = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
@@ -38,30 +40,62 @@ export class ProductList extends Component {
           </div>
         </div>
       );
-    } else if (this.state.searchText === "") {
-      let renderProducts = products.map((product) => {
-        return <ProductListDetail productOb={product} key={product._id} />;
-      });
-      return (
-        <div className="container">
-          <div className="row">
-            <h1>ProductList</h1>
-            <div className="col-12 container-search-input">
-              <h1>Search Input Component</h1>
-              <input
-                type="text"
-                name="searchText"
-                onChange={this.handleSearchInput}
-                value={this.state.searchText}
-              />
-            </div>
-            <div className="col-12">
-              <div className="row">{renderProducts}</div>
+    } else {
+      if (this.state.searchText === "") {
+        let renderProducts = products.map((product) => {
+          return <ProductListDetail productOb={product} key={product._id} />;
+        });
+        return (
+          <div className="container">
+            <div className="row">
+              <div className="col-12 col-md-8 offset-sm-2 container-search-input mb-2">
+                <input
+                  type="text"
+                  name="searchText"
+                  onChange={this.handleSearchInput}
+                  value={this.state.searchText}
+                  className="form-control"
+                  placeholder=" Search for products"
+                />
+              </div>
+              <div className="col-12">
+                <div className="row">{renderProducts}</div>
+              </div>
             </div>
           </div>
-        </div>
-      );
-    } else {
+        );
+      } else {
+        let fileredProducts = products.filter((product) => {
+          return product.name.toLowerCase().includes(this.state.searchText);
+        });
+        let renderProducts = fileredProducts.map((product) => {
+          return <ProductListDetail productOb={product} key={product._id} />;
+        });
+        return (
+          <div className="container">
+            <div className="row">
+              <div className="col-12 col-md-8 offset-sm-2 container-search-input mb-2">
+                <input
+                  type="text"
+                  name="searchText"
+                  onChange={this.handleSearchInput}
+                  value={this.state.searchText}
+                  className="form-control"
+                  placeholder=" Search for products"
+                />
+              </div>
+              <div className="col-12">
+                <div className="row">
+                  <div className="col-md-12">
+                    <p>{fileredProducts.length}</p>
+                  </div>
+                </div>
+                <div className="row">{renderProducts}</div>
+              </div>
+            </div>
+          </div>
+        );
+      }
     }
   }
 }

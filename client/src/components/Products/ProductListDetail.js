@@ -21,7 +21,7 @@ export class ProductListDetail extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({ auth: state.auth });
 
 const mapDispatchToProps = {};
 
