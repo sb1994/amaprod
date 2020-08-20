@@ -4,9 +4,24 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 //models
 const User = require('../models/User')
-
+const passport = require('passport')
 router.get('/test', (req, res) => res.json({ msg: 'Users Works' }))
-
+router.get(
+  '/current',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    User.findById(req.user.id, (err, user) => {
+      res.json({
+        user: user,
+      })
+    })
+    // res.json({
+    //   id: req.user.id,
+    //   name: req.user.name,
+    //   email: req.user.email
+    // });
+  }
+)
 router.get('/', (req, res) => {
   User.find({})
     .select('-password')
@@ -14,6 +29,67 @@ router.get('/', (req, res) => {
       res.json({ users: users })
     })
     .catch((err) => {})
+})
+router.post('/register', (req, res) => {
+  const errors = {}
+
+  //checks wether the username or email already exists
+  User.findOne({
+    $or: [
+      {
+        email: req.body.email,
+      },
+      { name: req.body.name },
+    ],
+  })
+    .then((user) => {
+      if (user) {
+        errors.email = 'Email or Name already exists'
+        return res.status(200).json(errors)
+      } else {
+        const newUser = new User({
+          name: req.body.name,
+          email: req.body.email,
+          profile_pic:
+            'http://www.culpepperandassociates.com/wp-content/uploads/2014/08/dummy-avatar.png',
+          password: req.body.password,
+        })
+        // console.log(newUser);
+        // res.json({ user: newUser })
+        bcrypt.genSalt(10, (err, salt) => {
+          bcrypt.hash(newUser.password, salt, (err, hash) => {
+            if (err) throw err
+            newUser.password = hash
+            newUser
+              .save()
+              .then((user) => {
+                const payload = {
+                  _id: user.id,
+                  name: user.name,
+                  profile_pic: user.profile_pic,
+                  email: user.email,
+                  cart: user.cart,
+                }
+                jwt.sign(
+                  payload,
+                  process.env.SECRET,
+                  { expiresIn: 3600 * 1000 * 1000 * 20 },
+                  (err, token) => {
+                    res.json({
+                      success: true,
+                      token: `${token}`,
+                    })
+                  }
+                )
+              })
+              .catch((err) => res.json(err))
+            // console.log(newUser);
+          })
+        })
+      }
+    })
+    .catch((err) => res.json(err))
+  // // console.log(req.body);
 })
 router.post('/login', (req, res) => {
   const { email, password } = req.body
@@ -37,6 +113,7 @@ router.post('/login', (req, res) => {
           name: user.name,
           profile_pic: user.profile_pic,
           email: user.email,
+          cart: user.cart,
         }
         jwt.sign(
           payload,

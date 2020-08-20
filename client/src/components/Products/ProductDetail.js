@@ -15,6 +15,7 @@ export class ProductDetail extends Component {
   render() {
     console.log(this.props.product.product)
     let { product } = this.props.product
+    let { isAuthenticated } = this.props.auth
     if (product === undefined) {
       return (
         <div className='container'>
@@ -29,9 +30,21 @@ export class ProductDetail extends Component {
       return (
         <div className='container'>
           <div className='row'>
-            <div className='col-12'>
-              <p>{product.name}</p>
-              <img src={product.image} alt='' srcset='' />
+            <div className='col-6'>
+              <img src={product.image} />
+            </div>
+            <div className='col-6'>
+              <div className='row'>
+                <div className='col-12'>
+                  <h1>{product.name}</h1>
+                  <p>{product.description}</p>
+                </div>
+                {isAuthenticated ? (
+                  <div className='col-12'>
+                    <button className='btn btn-primary'>Add to Cart</button>
+                  </div>
+                ) : null}
+              </div>
             </div>
           </div>
         </div>

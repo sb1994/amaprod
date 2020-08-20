@@ -5,67 +5,71 @@ const Schema = mongoose.Schema
 const UserSchema = new Schema({
   name: {
     type: String,
-    required: true
+    required: true,
   },
   email: {
     type: String,
-    required: true
+    required: true,
   },
   password: {
     type: String,
-    required: true
+    required: true,
   },
   profile_pic: {
-    type: String
+    type: String,
   },
   website: {
-    type: String
+    type: String,
   },
   location: {
-    type: String
+    type: String,
   },
   status: {
     type: String,
-    default:'Customer'
+    default: 'Customer',
   },
   bio: {
-    type: String
+    type: String,
   },
   githubusername: {
-    type: String
+    type: String,
   },
   friends: [
     {
       user: {
         type: Schema.Types.ObjectId,
-        ref: 'users'
+        ref: 'users',
       },
       status: {
         type: String,
-        default: 'pending'
-      }
-    }
+        default: 'pending',
+      },
+    },
   ],
+  cart: {
+    type: Array,
+    default: [],
+  },
   pendingFriendsRequests: [
     {
       user: {
         type: Schema.Types.ObjectId,
-        ref: 'users'
+        ref: 'users',
       },
       status: {
         type: String,
-        default: 'pending'
-      }
-    }
+        default: 'pending',
+      },
+    },
   ],
   joined: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
   active: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 })
 
 module.exports = User = mongoose.model('users', UserSchema)

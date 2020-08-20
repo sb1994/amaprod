@@ -214,6 +214,7 @@ export const loginAuth = (email, password) => {
         //as a cookie
         localStorage.setItem('token', token)
         setUserToken(token)
+        console.log(token)
         const decoded = jwt_decode(token)
         dispatch(setLoggedUser(decoded))
       })

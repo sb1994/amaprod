@@ -20,7 +20,16 @@ import ProductList from './components/Products/ProductList'
 
 import Navigation from './components/Nav/Navigation'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import { setLoggedUser } from './actions/userAuthActions'
 
+if (localStorage.token) {
+  setUserToken(localStorage.token)
+  const decoded = jwt_decode(localStorage.token)
+
+  // Set user and isAuthenticated
+  store.dispatch(setLoggedUser(decoded))
+  console.log(decoded)
+}
 class App extends Component {
   render() {
     return (

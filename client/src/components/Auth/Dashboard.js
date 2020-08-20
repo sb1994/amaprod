@@ -1,7 +1,17 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { getCurrentUser } from '../../actions/userAuthActions'
 
 export class Dashboard extends Component {
+  componentDidMount() {
+    if (!this.props.auth.isAuthenticated) {
+      this.props.history.push('/')
+    } else {
+      this.props.getCurrentUser()
+      // this.props.getPosts(this.props.auth.user._id)
+      console.log(this.props)
+    }
+  }
   render() {
     return (
       <div>
@@ -17,4 +27,4 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {}
 
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)
+export default connect(mapStateToProps, { getCurrentUser })(Dashboard)
