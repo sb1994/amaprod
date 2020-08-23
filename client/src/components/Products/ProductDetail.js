@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { getSelectedProduct } from '../../actions/productActions'
-
+import ProductReviewForm from './ProductReviewForm'
 export class ProductDetail extends Component {
   constructor(props) {
     super(props)
@@ -30,10 +30,10 @@ export class ProductDetail extends Component {
       return (
         <div className='container'>
           <div className='row'>
-            <div className='col-6'>
+            <div className='col-md-6 col-12'>
               <img src={product.image} />
             </div>
-            <div className='col-6'>
+            <div className='col-md-6 col-12'>
               <div className='row'>
                 <div className='col-12'>
                   <h1>{product.name}</h1>
@@ -45,6 +45,15 @@ export class ProductDetail extends Component {
                   </div>
                 ) : null}
               </div>
+            </div>
+          </div>
+          <hr />
+          <div className='row'>
+            <div className='col-12'>
+              <ProductReviewForm />
+            </div>
+            <div className='col-12'>
+              <h2>Review List</h2>
             </div>
           </div>
         </div>
