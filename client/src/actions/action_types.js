@@ -9,7 +9,7 @@ export const SET_LOGGED_USER = 'SET_LOGGED_USER'
 //product action
 export const GET_PRODUCTS = 'GET_PRODUCTS'
 export const GET_PRODUCT = 'GET_PRODUCT'
-
+export const CREATE_PRODUCT_REVIEW = 'CREATE_PRODUCT_REVIEW'
 
 export const SET_CURRENT_USER = 'SET_CURRENT_USER'
 export const UPDATE_CURRENT_USER = 'UPDATE_CURRENT_USER'

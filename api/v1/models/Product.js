@@ -9,28 +9,36 @@ const ProductSchema = new Schema({
   type: {
     type: String,
   },
-  price:{
-    type:String
+  price: {
+    type: String,
   },
+  reviews: [
+    {
+      name: 'review',
+      type: Schema.Types.ObjectId,
+      ref: 'reviews',
+    },
+  ],
+
   shipping: {
     type: String,
   },
   manufacturer: {
-    type: String
+    type: String,
   },
   url: {
-    type: String
+    type: String,
   },
   description: {
-    type: String
+    type: String,
   },
   image: {
-    type: String
+    type: String,
   },
-  created:{
-    type:Date,
-    default:Date.now
-  }
+  created: {
+    type: Date,
+    default: Date.now,
+  },
 })
 
 module.exports = Product = mongoose.model('products', ProductSchema)

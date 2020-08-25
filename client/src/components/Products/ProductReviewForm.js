@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { FaStar } from 'react-icons/fa'
+import './product_review_form.css'
+import { createProductReview } from '../../actions/productActions'
 
 class ProductReviewForm extends Component {
   constructor(props) {
@@ -7,25 +10,73 @@ class ProductReviewForm extends Component {
 
     this.state = {
       text: '',
+      rating: null,
+      hover: null,
     }
   }
 
-  handleTextInputChange = (e) => {
+  handleInputChange = (e) => {
     this.setState({ [e.target.name]: e.target.value })
+    console.log(this.state)
   }
-  handleReviewFormSubmit = () => {}
+  handleReviewFormSubmit = () => {
+    let { product } = this.props.product
+    let { text, rating } = this.state
+    if (text === '' || rating === null) {
+      console.log('Please enter a rating and review')
+    } else {
+      this.props.createProductReview(text, rating, product._id)
+    }
+    // console.log(product)
+  }
   render() {
-    console.log(this.props.product)
+    let { rating, hover, text } = this.state
+
     return (
       <div>
         <h2>Product Review Form</h2>
-        <p>{this.props.product.product._id}</p>
-        <input
-          type='text'
-          value={this.state.text}
-          onChange={this.handleTextInputChange}
-        />
-        <button className='btn btn-primary'>Add Review</button>
+        {/* creates an untitled array that takes that returns the fastars as params */}
+        <p>Rating:</p>
+        <div className='form-group'>
+          {[...Array(5)].map((star, index) => {
+            const ratingValue = index + 1
+            return (
+              <label key={index}>
+                <input
+                  type='radio'
+                  name='rating'
+                  value={ratingValue}
+                  onChange={this.handleInputChange}
+                />
+                <FaStar
+                  size={50}
+                  color={ratingValue <= rating ? '#ffc107' : '#e4e5e9'}
+                  className='star'
+                />
+              </label>
+            )
+          })}
+        </div>
+        <div className='form-group'>
+          <label>
+            {' '}
+            Product Review:
+            <textarea
+              type='text'
+              value={this.state.text}
+              name='text'
+              onChange={this.handleInputChange}
+              className='form-control'
+            />
+          </label>
+        </div>
+        <button
+          className='btn btn-primary'
+          onClick={this.handleReviewFormSubmit}
+          disabled={rating === (null || '') || text === '' ? true : false}
+        >
+          Add Review
+        </button>
       </div>
     )
   }
@@ -38,4 +89,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {}
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProductReviewForm)
+export default connect(mapStateToProps, { createProductReview })(
+  ProductReviewForm
+)
