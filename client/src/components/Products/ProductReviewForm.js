@@ -31,7 +31,6 @@ class ProductReviewForm extends Component {
         rating: "",
       });
     }
-    // console.log(product)
   };
   render() {
     let { rating, hover, text } = this.state;
