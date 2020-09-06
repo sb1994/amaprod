@@ -17,6 +17,7 @@ export const registerUser = (userData) => (dispatch) => {
       })
     )
 }
+
 export const getUsers = () => (dispatch) => {
   axios
     .get('/api/users/all')
@@ -34,103 +35,6 @@ export const getUsers = () => (dispatch) => {
       })
     )
 }
-
-export const addFollow = (user_id) => (dispatch) => {
-  axios
-    .post(`/api/users/follow/${user_id}/add`, user_id)
-    .then((res) => {
-      console.log(res.data)
-
-      dispatch({
-        type: types.SUCCESS_FOLLOW,
-        payload: res.data,
-      })
-    })
-
-    .catch((err) =>
-      dispatch({
-        type: types.FAIL_FOLLOW,
-        payload: err.response.data,
-      })
-    )
-  // dispatch({
-  //   type: types.SUCCESS_FOLLOW,
-  // })
-}
-export const removeFollow = (user_id) => (dispatch) => {
-  console.log(user_id)
-
-  axios
-    .post(`/api/users/follow/${user_id}/remove`)
-    .then((res) => {
-      dispatch({
-        type: types.SUCCESS_FOLLOW_REMOVE,
-        payload: res.data,
-      })
-    })
-
-    .catch((err) =>
-      dispatch({
-        type: types.FAIL_FOLLOW,
-        payload: err.response.data,
-      })
-    )
-  // dispatch({
-  //   type: types.SUCCESS_FOLLOW,
-  // })
-}
-// export const cancelFriendRequest = user_id => dispatch => {
-//   // console.log(user_id);
-//   dispatch({
-//     type: types.CANCEL_FRIEND_REQUEST
-//   })
-//   axios
-//     .post(`/api/users/friends/cancel/${user_id}`, user_id)
-//     .then(res => {
-//       console.log(res.data)
-//     })
-
-//     .catch(err =>
-//       dispatch({
-//         type: types.FAIL_ADD_FRIEND,
-//         payload: err.response.data
-//       })
-//     )
-// }
-// export const acceptFriendRequest = requesterId => dispatch => {
-//   axios
-//     .post(`/api/users/friends/accept/${requesterId}`)
-//     .then(result => {
-//       // dispatch(setLoggedUser(result.data));
-//       console.log(result.data)
-//     })
-//     .catch(err => {
-//       console.log(err)
-//     })
-//   // console.log(requesterId);
-//   return {
-//     type: types.ACCEPT_FRIEND_REQUEST
-//   }
-//   // axios
-//   //   .post(`/api/users/friends/add/${user_id}`, user_id)
-//   //   .then(res => {
-//   //     dispatch({
-//   //       type: types.ADD_FRIEND,
-//   //       payload: res.data
-//   //     });
-//   //     console.log(res.data);
-//   //   })
-
-//   //   .catch(err =>
-//   //     dispatch({
-//   //       type: types.FAIL_ADD_FRIEND,
-//   //       payload: err.response.data
-//   //     })
-//   //   );
-//   // return {
-//   //   type: types.ADD_FRIEND
-//   // };
-// }
 export const startAuth = () => {
   return {
     type: types.START_AUTH,
@@ -292,4 +196,77 @@ export const logoutUser = () => (dispatch) => {
   // Set current user to {} which will set isAuthenticated to false
   dispatch(setLoggedUser({}))
   dispatch(setSearchedUser({}))
+}
+export const setProductCart = (cartToken) => (dispatch) => {
+  console.log(cartToken)
+  dispatch({
+    type: types.SET_USER_CART,
+    payload: cartToken,
+  })
+}
+export const addProductToCart = (product) => (dispatch) => {
+  //cookie solution
+  let cart = localStorage.getItem('cart')
+
+  if (cart === null) {
+    console.log('cart token doesnt exist')
+    let quantity = 1
+    let cartProduct = {
+      id: product._id,
+      quantity,
+      product,
+    }
+    let updatedCart = []
+    updatedCart.push(cartProduct)
+    localStorage.setItem('cart', JSON.stringify(updatedCart))
+    dispatch({
+      type: types.ADD_PRODUCT_TO_CART,
+      payload: updatedCart,
+    })
+  } else {
+    //parses the cart token into an array
+    let parsedCart = JSON.parse(cart)
+
+    //checks wether the product is already in the cart
+    let productAlreadyAddedToCart = parsedCart.some(
+      (item) => item.id === product._id
+    )
+    if (productAlreadyAddedToCart) {
+      console.log('adding one more to the quantity')
+      //finds the index of the array so that the quatity can be edited
+      let index = parsedCart.findIndex((item) => item.id === product._id)
+      console.log(index)
+      //creates a copy of the parsed cart that can be manipulated
+      let updatedCart = parsedCart
+      let quantity = updatedCart[index].quantity + 1
+      console.log(quantity)
+
+      //
+      updatedCart[index].quantity = updatedCart[index].quantity + 1
+
+      console.log(updatedCart)
+      localStorage.setItem('cart', JSON.stringify(updatedCart))
+      dispatch({
+        type: types.ADD_PRODUCT_TO_CART,
+        payload: updatedCart,
+      })
+      // console.log(updatedCart[index].quantity)
+    } else {
+      //if the product doesnt exist in the cart then it gets pushed into the cart
+      let quantity = 1
+      let cartProduct = {
+        id: product._id,
+        quantity,
+        product,
+      }
+      let updatedCart = parsedCart
+      // cart.push({ id: product._id })
+      updatedCart.push(cartProduct)
+      localStorage.setItem('cart', JSON.stringify(updatedCart))
+      dispatch({
+        type: types.ADD_PRODUCT_TO_CART,
+        payload: updatedCart,
+      })
+    }
+  }
 }

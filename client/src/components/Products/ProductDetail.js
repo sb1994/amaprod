@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { getSelectedProduct } from '../../actions/productActions'
+import { addProductToCart } from '../../actions/userAuthActions'
 import ProductReviewForm from './ProductReviewForm'
 import ProductReviewList from './ProductReviewList'
 
@@ -14,9 +15,16 @@ export class ProductDetail extends Component {
   componentDidMount() {
     this.props.getSelectedProduct(this.props.match.params.id)
   }
+  handleAddToCart = () => {
+    let { cart } = this.props.auth
+    let { product } = this.props.product
+    this.props.addProductToCart(product)
+  }
+
   render() {
     // console.log(this.props.product.product)
     let { product } = this.props.product
+    let { cart } = this.props.auth
     let { isAuthenticated } = this.props.auth
     let { user } = this.props.auth
     if (product === undefined) {
@@ -52,7 +60,12 @@ export class ProductDetail extends Component {
                 </div>
                 {isAuthenticated ? (
                   <div className='col-12'>
-                    <button className='btn btn-primary'>Add to Cart</button>
+                    <button
+                      className='btn btn-primary'
+                      onClick={this.handleAddToCart}
+                    >
+                      Add to Cart
+                    </button>
                   </div>
                 ) : null}
               </div>
@@ -89,4 +102,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {}
 
-export default connect(mapStateToProps, { getSelectedProduct })(ProductDetail)
+export default connect(mapStateToProps, {
+  getSelectedProduct,
+  addProductToCart,
+})(ProductDetail)

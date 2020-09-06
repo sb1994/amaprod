@@ -11,6 +11,12 @@ export const GET_PRODUCTS = 'GET_PRODUCTS'
 export const GET_PRODUCT = 'GET_PRODUCT'
 export const CREATE_PRODUCT_REVIEW = 'CREATE_PRODUCT_REVIEW'
 
+//cart Actions types
+export const GET_USER_CART = 'GET_USER_CART'
+export const SET_USER_CART = 'SET_USER_CART'
+export const ADD_PRODUCT_TO_CART = 'ADD_PRODUCT_TO_CART'
+
+//user action types
 export const SET_CURRENT_USER = 'SET_CURRENT_USER'
 export const UPDATE_CURRENT_USER = 'UPDATE_CURRENT_USER'
 export const UPDATE_CURRENT_USER_SUCCESS = 'UPDATE_CURRENT_USER_SUCCESS'
@@ -20,24 +26,8 @@ export const PROFILE_NOT_FOUND = 'PROFILE_NOT_FOUND'
 export const CLEAR_CURRENT_PROFILE = 'CLEAR_CURRENT_PROFILE'
 export const GET_PROFILES = 'GET_PROFILES'
 
-// Follow actions
-export const ADD_FOLLOW = 'ADD_FRIEND'
-export const ADDING_FOLLOW = 'ADDING_FOLLOW'
-export const SUCCESS_FOLLOW = 'SUCCESS_FOLLOW'
-export const SUCCESS_FOLLOW_REMOVE = 'SUCCESS_FOLLOW_REMOVE'
-export const FAIL_FOLLOW = 'FAIL_FOLLOW'
-export const REMOVE_FOLLOW = 'REMOVE_FOLLOW'
-
-//post action types
-export const GET_POSTS = 'GET_POSTS'
-export const GET_POST = 'GET_POST'
-export const ADD_POST = 'ADD_POST'
-export const DELETE_POST = 'DELETE_POST'
-export const DELETE_POSTS = 'DELETE_POSTS'
-export const CLEAR_INPUT_ERRORS = 'CLEAR_INPUT_ERRORS'
 export const CLEAR_ERRORS = 'CLEAR_ERRORS'
 export const GET_ERRORS = 'GET_ERRORS'
-export const POST_LOADING = 'POST_LOADING'
 
 //comment acction types
 export const GET_COMMENTS = 'GET_COMMENTS'
@@ -52,7 +42,3 @@ export const GET_SEARCHED_USER = 'GET_SEARCHED_USER'
 export const SET_SEARCHED_USER = 'SET_SEARCHED_USER'
 export const FILTER_USERS = 'FILTER_USERS'
 export const LOADING_USERS = 'LOADING_USERS'
-
-export const GET_CHAT_POSTS = 'GET_CHAT_POSTS'
-export const GET_CHAT_POST = 'GET_CHAT_POST'
-export const JOIN_PRIVATE_CHAT = 'JOIN_PRIVATE_CHAT'

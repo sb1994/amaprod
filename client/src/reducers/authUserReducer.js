@@ -2,8 +2,8 @@ import {
   SET_LOGGED_USER,
   SET_SEARCHED_USER,
   GET_USERS,
-  SUCCESS_FOLLOW,
-  SUCCESS_FOLLOW_REMOVE,
+  ADD_PRODUCT_TO_CART,
+  SET_USER_CART,
 } from '../actions/action_types'
 import isEmpty from '../validation/isEmpty'
 
@@ -16,6 +16,7 @@ const initialState = {
   user: {},
   searchedUser: {},
   users: [],
+  cart: [],
 }
 
 const auth = (state = initialState, action) => {
@@ -36,15 +37,15 @@ const auth = (state = initialState, action) => {
         ...state,
         searchedUser: action.payload,
       }
-    case SUCCESS_FOLLOW:
+    case ADD_PRODUCT_TO_CART:
       return {
         ...state,
-        searchedUser: action.payload,
+        cart: action.payload,
       }
-    case SUCCESS_FOLLOW_REMOVE:
+    case SET_USER_CART:
       return {
         ...state,
-        searchedUser: action.payload,
+        cart: action.payload,
       }
     default:
       return state
