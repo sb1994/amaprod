@@ -4,11 +4,9 @@ export const checkReviewFormRender = (reviews, user_id) => {
   let renderReviewForm = reviews.includes((review) => {
     if (review.user._id !== user_id) {
       console.log(review)
-
       return true
     }
   })
-
   return renderReviewForm
 }
 export const returnTotalPrice = (cart) => {
@@ -24,9 +22,6 @@ export const returnTotalPrice = (cart) => {
   let prices = cart.map((item) => {
     return parseFloat(item.product.price)
   })
-
-  // let totalPrice = 0
-
   //get the total price of the cart by multiplying them all together
   // with the quantitiy of the items
   for (let i = 0; i < quantites.length; i++) {

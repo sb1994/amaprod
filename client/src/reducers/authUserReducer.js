@@ -4,6 +4,7 @@ import {
   GET_USERS,
   ADD_PRODUCT_TO_CART,
   SET_USER_CART,
+  CLEAR_CART,
 } from '../actions/action_types'
 import isEmpty from '../validation/isEmpty'
 
@@ -38,6 +39,11 @@ const auth = (state = initialState, action) => {
         searchedUser: action.payload,
       }
     case ADD_PRODUCT_TO_CART:
+      return {
+        ...state,
+        cart: action.payload,
+      }
+    case CLEAR_CART:
       return {
         ...state,
         cart: action.payload,

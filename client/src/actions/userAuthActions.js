@@ -270,3 +270,17 @@ export const addProductToCart = (product) => (dispatch) => {
     }
   }
 }
+export const clearCart = () => (dispatch) => {
+  //cookie solution
+  let cart = localStorage.getItem('cart')
+
+  if (cart !== null) {
+    // console.log(cart)
+    localStorage.removeItem('cart')
+    let updatedCart = []
+    dispatch({
+      type: types.CLEAR_CART,
+      payload: updatedCart,
+    })
+  }
+}

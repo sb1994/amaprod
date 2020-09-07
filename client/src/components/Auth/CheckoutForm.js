@@ -2,22 +2,52 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { returnTotalPrice } from '../../utils/functions'
+import { clearCart } from '../../actions/userAuthActions'
 class CheckoutForm extends Component {
+  handleClearCart = () => {
+    console.log('clearing cart')
+    this.props.clearCart()
+  }
+  handlePurchaseClick = () => {
+    let { cart, user } = this.props.auth
+    let totalPrice = returnTotalPrice(cart)
+
+    console.log(totalPrice)
+  }
   render() {
     let { isAuthenticated, user, cart } = this.props.auth
     let totalPrice = returnTotalPrice(cart)
     if (isAuthenticated) {
-      return (
-        <div className='row'>
-          <h1>CheckoutForm</h1>
-          <div className='col-12'>
-            <p>Total Price: &#8364;{totalPrice}</p>
+      if (cart.length > 0) {
+        return (
+          <div className='row'>
+            <h1>CheckoutForm</h1>
+            <div className='col-12'>
+              <p>Total Price: &#8364;{totalPrice}</p>
+            </div>
+            <div className='col-12'>
+              <button
+                className='btn btn-primary'
+                onClick={this.handlePurchaseClick}
+              >
+                Proceed
+              </button>
+              <button className='btn btn-danger' onClick={this.handleClearCart}>
+                Clear Cart
+              </button>
+            </div>
           </div>
-          <div className='col-12'>
-            <p>{user.name}</p>
+        )
+      } else {
+        return (
+          <div className='row'>
+            <h1>CheckoutForm</h1>
+            <div className='col-12'>
+              <p>You Have Nothing in your cart</p>
+            </div>
           </div>
-        </div>
-      )
+        )
+      }
     } else {
       return (
         <div className='row'>
@@ -38,4 +68,4 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {}
 
-export default connect(mapStateToProps, mapDispatchToProps)(CheckoutForm)
+export default connect(mapStateToProps, { clearCart })(CheckoutForm)

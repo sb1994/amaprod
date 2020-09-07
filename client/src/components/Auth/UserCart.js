@@ -14,7 +14,11 @@ export class UserCart extends Component {
           <div className='col-6'>
             <h1>User Cart</h1>
             {/* <hr /> */}
-            {renderCartItems}
+            {renderCartItems.length > 0 ? (
+              renderCartItems
+            ) : (
+              <p>You have notihig in your cart</p>
+            )}
           </div>
 
           <div className='col-6'>

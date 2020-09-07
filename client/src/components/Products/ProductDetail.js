@@ -21,12 +21,16 @@ export class ProductDetail extends Component {
     this.props.addProductToCart(product)
   }
 
+  handleShowCart = () => {
+    this.props.history.push('/cart')
+  }
   render() {
     // console.log(this.props.product.product)
     let { product } = this.props.product
     let { cart } = this.props.auth
     let { isAuthenticated } = this.props.auth
     let { user } = this.props.auth
+
     if (product === undefined) {
       return (
         <div className='container'>
@@ -40,6 +44,9 @@ export class ProductDetail extends Component {
     } else {
       let { reviews } = product
       let alreadyReviewed
+      let alreadyInCart = cart.some((item) => {
+        return item.id === product._id
+      })
       // console.log(reviews);
       if (reviews !== undefined) {
         alreadyReviewed = reviews.some((review) => {
@@ -58,7 +65,7 @@ export class ProductDetail extends Component {
                   <h1>{product.name}</h1>
                   <p>{product.description}</p>
                 </div>
-                {isAuthenticated ? (
+                {alreadyInCart === false ? (
                   <div className='col-12'>
                     <button
                       className='btn btn-primary'
@@ -67,7 +74,16 @@ export class ProductDetail extends Component {
                       Add to Cart
                     </button>
                   </div>
-                ) : null}
+                ) : (
+                  <div className='col-12'>
+                    <button
+                      className='btn-warning btn'
+                      onClick={this.handleShowCart}
+                    >
+                      Show in Cart
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>

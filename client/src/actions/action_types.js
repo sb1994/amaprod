@@ -15,6 +15,7 @@ export const CREATE_PRODUCT_REVIEW = 'CREATE_PRODUCT_REVIEW'
 export const GET_USER_CART = 'GET_USER_CART'
 export const SET_USER_CART = 'SET_USER_CART'
 export const ADD_PRODUCT_TO_CART = 'ADD_PRODUCT_TO_CART'
+export const CLEAR_CART = 'CLEAR_CART'
 
 //user action types
 export const SET_CURRENT_USER = 'SET_CURRENT_USER'
