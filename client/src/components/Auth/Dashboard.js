@@ -9,7 +9,6 @@ export class Dashboard extends Component {
     } else {
       this.props.getCurrentUser()
       // this.props.getPosts(this.props.auth.user._id)
-      console.log(this.props)
     }
   }
   render() {

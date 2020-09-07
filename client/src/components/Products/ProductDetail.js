@@ -57,7 +57,7 @@ export class ProductDetail extends Component {
         <div className='container'>
           <div className='row'>
             <div className='col-md-6 col-12 col-sm-12'>
-              <img src={product.image} style={{ height: '300px' }} />
+              <img src={product.image} style={{ height: '200px' }} />
             </div>
             <div className='col-md-6 col-12 col-sm-12'>
               <div className='row'>

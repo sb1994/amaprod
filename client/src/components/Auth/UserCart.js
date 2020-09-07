@@ -11,7 +11,7 @@ export class UserCart extends Component {
     return (
       <div className='container'>
         <div className='row'>
-          <div className='col-6'>
+          <div className='col-md-6 col-12'>
             <h1>User Cart</h1>
             {/* <hr /> */}
             {renderCartItems.length > 0 ? (
@@ -21,7 +21,7 @@ export class UserCart extends Component {
             )}
           </div>
 
-          <div className='col-6'>
+          <div className='col-md-6 col-12'>
             <CheckoutForm />
           </div>
         </div>

@@ -30,6 +30,22 @@ router.get('/', (req, res) => {
     })
     .catch((err) => {})
 })
+router.post(
+  '/purchase',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    console.log(req.body)
+    console.log(req.user)
+    res.json(req.user)
+
+    // User.find({})
+    //   .select('-password')
+    //   .then((users) => {
+    //     res.json({ users: users })
+    //   })
+    //   .catch((err) => {})
+  }
+)
 router.post('/register', (req, res) => {
   const errors = {}
 

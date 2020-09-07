@@ -5,6 +5,8 @@ import {
   ADD_PRODUCT_TO_CART,
   SET_USER_CART,
   CLEAR_CART,
+  ADD_TO_PRODUCT_QUANTITY,
+  REMOVE_FROM_PRODUCT_QUANTITY,
 } from '../actions/action_types'
 import isEmpty from '../validation/isEmpty'
 
@@ -49,6 +51,16 @@ const auth = (state = initialState, action) => {
         cart: action.payload,
       }
     case SET_USER_CART:
+      return {
+        ...state,
+        cart: action.payload,
+      }
+    case ADD_TO_PRODUCT_QUANTITY:
+      return {
+        ...state,
+        cart: action.payload,
+      }
+    case REMOVE_FROM_PRODUCT_QUANTITY:
       return {
         ...state,
         cart: action.payload,

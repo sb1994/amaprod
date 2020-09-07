@@ -243,8 +243,6 @@ export const addProductToCart = (product) => (dispatch) => {
 
       //
       updatedCart[index].quantity = updatedCart[index].quantity + 1
-
-      console.log(updatedCart)
       localStorage.setItem('cart', JSON.stringify(updatedCart))
       dispatch({
         type: types.ADD_PRODUCT_TO_CART,
@@ -269,6 +267,58 @@ export const addProductToCart = (product) => (dispatch) => {
       })
     }
   }
+}
+export const addToProductQuantity = (id) => (dispatch) => {
+  //cookie solution
+  let cart = localStorage.getItem('cart')
+  let parsedCart = JSON.parse(cart)
+  //gets the index of where the product sits in the array
+  let index = parsedCart.findIndex((item) => item.id === id)
+  let updatedCart = parsedCart
+  updatedCart[index].quantity = updatedCart[index].quantity + 1
+  localStorage.setItem('cart', JSON.stringify(updatedCart))
+  dispatch({
+    type: types.ADD_TO_PRODUCT_QUANTITY,
+    payload: updatedCart,
+  })
+}
+export const removeFromProductQuantity = (id) => (dispatch) => {
+  //cookie solution
+  let cart = localStorage.getItem('cart')
+
+  let parsedCart = JSON.parse(cart)
+  // //gets the index of where the product sits in the array
+  let index = parsedCart.findIndex((item) => item.id === id)
+  let updatedCart = parsedCart
+  updatedCart[index].quantity = updatedCart[index].quantity - 1
+  //checks if the product need to be removed from the car if quantity is set to zero
+  if (updatedCart[index].quantity === 0) {
+    updatedCart = updatedCart.filter((item) => item.id !== id)
+    localStorage.setItem('cart', JSON.stringify(updatedCart))
+    dispatch({
+      type: types.REMOVE_FROM_PRODUCT_QUANTITY,
+      payload: updatedCart,
+    })
+  } else {
+    // updatedCart[index].quantity = updatedCart[index].quantity - 1
+    localStorage.setItem('cart', JSON.stringify(updatedCart))
+    dispatch({
+      type: types.REMOVE_FROM_PRODUCT_QUANTITY,
+      payload: updatedCart,
+    })
+  }
+  // let updatedCart = parsedCart
+}
+export const proceedWithPurchase = (cart, totalPrice) => (dispatch) => {
+  axios
+    .post(
+      '/api/users/purchase',
+
+      { cart, totalPrice }
+    )
+    .then((res) => {
+      console.log(res.data)
+    })
 }
 export const clearCart = () => (dispatch) => {
   //cookie solution
