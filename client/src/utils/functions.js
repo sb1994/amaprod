@@ -11,3 +11,19 @@ export const checkReviewFormRender = (reviews, user_id) => {
 
   return renderReviewForm
 }
+export const returnTotalPrice = (cart) => {
+  let totalPrice = 0
+  let quantites = cart.map((item) => {
+    return item.quantity
+  })
+  let prices = cart.map((item) => {
+    return parseFloat(item.product.price)
+  })
+
+  // let totalPrice = 0
+
+  for (let i = 0; i < quantites.length; i++) {
+    totalPrice = totalPrice + quantites[i] * prices[i]
+  }
+  return totalPrice
+}
