@@ -8,12 +8,12 @@ export class Dashboard extends Component {
       this.props.history.push('/')
     } else {
       this.props.getCurrentUser()
-      // this.props.getPosts(this.props.auth.user._id)
     }
   }
+
   render() {
     return (
-      <div>
+      <div className='container'>
         <h1>Dashboard</h1>
       </div>
     )

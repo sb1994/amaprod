@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import { returnTotalPrice } from '../../utils/functions'
 import { clearCart, proceedWithPurchase } from '../../actions/userAuthActions'
 class CheckoutForm extends Component {
@@ -12,6 +12,7 @@ class CheckoutForm extends Component {
     let { cart, user } = this.props.auth
     let totalPrice = returnTotalPrice(cart)
     this.props.proceedWithPurchase(cart, totalPrice)
+    this.props.history.push('/dashboard')
   }
   render() {
     let { isAuthenticated, user, cart } = this.props.auth
@@ -67,6 +68,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {}
 
-export default connect(mapStateToProps, { clearCart, proceedWithPurchase })(
-  CheckoutForm
+export default withRouter(
+  connect(mapStateToProps, { clearCart, proceedWithPurchase })(CheckoutForm)
 )

@@ -34,16 +34,32 @@ router.post(
   '/purchase',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    console.log(req.body)
-    console.log(req.user)
-    res.json(req.user)
+    let { totalPrice, cart } = req.body
+    let { user } = req
 
-    // User.find({})
-    //   .select('-password')
-    //   .then((users) => {
-    //     res.json({ users: users })
-    //   })
-    //   .catch((err) => {})
+    let order = {
+      products: [],
+      total_price: totalPrice,
+      order_date: Date.now(),
+    }
+    for (let i = 0; i < cart.length; i++) {
+      order.products.push({
+        product: cart[i].id,
+        quantity: cart[i].quantity,
+      })
+    }
+
+    User.findById(user._id)
+      .then((user) => {
+        user.order_history.push(order)
+        user.save().then((savedUser) => {
+          res.json({ user: savedUser })
+        })
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    // res.json(order)
   }
 )
 router.post('/register', (req, res) => {

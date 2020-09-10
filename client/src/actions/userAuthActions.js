@@ -309,7 +309,9 @@ export const removeFromProductQuantity = (id) => (dispatch) => {
   }
   // let updatedCart = parsedCart
 }
-export const proceedWithPurchase = (cart, totalPrice) => (dispatch) => {
+export const proceedWithPurchase = (cart, totalPrice, orderHistoryLength) => (
+  dispatch
+) => {
   axios
     .post(
       '/api/users/purchase',
@@ -318,6 +320,11 @@ export const proceedWithPurchase = (cart, totalPrice) => (dispatch) => {
     )
     .then((res) => {
       console.log(res.data)
+      dispatch(clearCart())
+      // dispatch({
+      //   type: types.PURCHASE_SUCCESS,
+      //   payload: updatedCart,
+      // })
     })
 }
 export const clearCart = () => (dispatch) => {

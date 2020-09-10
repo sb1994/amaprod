@@ -47,6 +47,24 @@ const UserSchema = new Schema({
       },
     },
   ],
+  order_history: [
+    {
+      products: [
+        {
+          product: {
+            type: Schema.Types.ObjectId,
+            ref: 'products',
+          },
+        },
+      ],
+      total_price: {
+        type: String,
+      },
+      order_date: {
+        type: Date,
+      },
+    },
+  ],
   cart: {
     type: Array,
     default: [],
