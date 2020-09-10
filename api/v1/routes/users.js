@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const stripe = require('stripe')(process.env.STRIPE_API_KEY)
 //models
 const User = require('../models/User')
 const passport = require('passport')
@@ -10,11 +11,11 @@ router.get(
   '/current',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    User.findById(req.user.id, (err, user) => {
-      res.json({
-        user: user,
+    User.findById(req.user.id)
+      .populate('order_history.products.product')
+      .then((user) => {
+        res.json(user)
       })
-    })
     // res.json({
     //   id: req.user.id,
     //   name: req.user.name,
@@ -33,7 +34,7 @@ router.get('/', (req, res) => {
 router.post(
   '/purchase',
   passport.authenticate('jwt', { session: false }),
-  (req, res) => {
+  async (req, res) => {
     let { totalPrice, cart } = req.body
     let { user } = req
 
@@ -48,17 +49,28 @@ router.post(
         quantity: cart[i].quantity,
       })
     }
+    console.log(Math.round(totalPrice))
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: parseInt(totalPrice),
+      currency: 'usd',
+    })
+    console.log(paymentIntent)
 
-    User.findById(user._id)
-      .then((user) => {
-        user.order_history.push(order)
-        user.save().then((savedUser) => {
-          res.json({ user: savedUser })
-        })
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+    // User.findById(user._id)
+    //   .then((user) => {
+    //     user.order_history.push(order)
+    //     user.save().then((savedUser) => {
+    //       User.findById(req.user.id)
+    //         // .sort({ 'order_history.order_date': 1 })
+    //         .populate('order_history.products.product')
+    //         .then((user) => {
+    //           res.json(user)
+    //         })
+    //     })
+    //   })
+    //   .catch((err) => {
+    //     console.log(err)
+    //   })
     // res.json(order)
   }
 )

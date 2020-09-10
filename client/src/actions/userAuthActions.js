@@ -319,12 +319,8 @@ export const proceedWithPurchase = (cart, totalPrice, orderHistoryLength) => (
       { cart, totalPrice }
     )
     .then((res) => {
-      console.log(res.data)
-      dispatch(clearCart())
-      // dispatch({
-      //   type: types.PURCHASE_SUCCESS,
-      //   payload: updatedCart,
-      // })
+      // dispatch(clearCart())
+      dispatch(setLoggedUser(res.data))
     })
 }
 export const clearCart = () => (dispatch) => {

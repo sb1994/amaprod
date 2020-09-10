@@ -3,10 +3,18 @@ import { connect } from 'react-redux'
 import OrderHistoryListItem from './OrderHistoryListItem'
 class OrderHistory extends Component {
   render() {
+    let renderOrders
+    let { orders } = this.props
+    if (orders.length > 0) {
+      console.log(this.props.orders)
+      renderOrders = orders.map((order, index) => {
+        return <OrderHistoryListItem order={order} key={index} />
+      })
+    }
     return (
-      <div>
-        <h1>Order OrderHistory</h1>
-        <OrderHistoryListItem />
+      <div className='col-12'>
+        <h1>Order History</h1>
+        {renderOrders}
       </div>
     )
   }
