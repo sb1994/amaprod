@@ -18,6 +18,8 @@ class OrderHistoryListItem extends Component {
               Ordered: <Moment format='DD/MM/YYYY'>{order.order_date}</Moment>
             </span>
             <div className='row'>{renderOrderProductsDetail}</div>
+            <hr />
+            <span>Total Price: &#8364;{order.total_price}</span>
           </div>
         </div>
       </div>

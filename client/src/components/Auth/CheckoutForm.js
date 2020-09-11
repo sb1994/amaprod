@@ -12,7 +12,7 @@ class CheckoutForm extends Component {
     let { cart, user } = this.props.auth
     let totalPrice = returnTotalPrice(cart)
     this.props.proceedWithPurchase(cart, totalPrice)
-    // this.props.history.push('/dashboard')
+    this.props.history.push('/dashboard')
   }
   render() {
     let { isAuthenticated, user, cart } = this.props.auth

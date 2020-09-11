@@ -319,7 +319,7 @@ export const proceedWithPurchase = (cart, totalPrice, orderHistoryLength) => (
       { cart, totalPrice }
     )
     .then((res) => {
-      // dispatch(clearCart())
+      dispatch(clearCart())
       dispatch(setLoggedUser(res.data))
     })
 }

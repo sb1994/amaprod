@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { getCurrentUser } from '../../actions/userAuthActions'
 import DashboardAccount from './DashboardAccount'
 import OrderHistory from './OrderHistory'
+import { withRouter } from 'react-router-dom'
 
 export class Dashboard extends Component {
   componentDidMount() {
@@ -27,6 +28,7 @@ export class Dashboard extends Component {
     return (
       <div className='container'>
         <h1>Dashboard</h1>
+        <DashboardAccount />
         {renderOrderHistory}
       </div>
     )
@@ -39,4 +41,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {}
 
-export default connect(mapStateToProps, { getCurrentUser })(Dashboard)
+export default withRouter(
+  connect(mapStateToProps, { getCurrentUser })(Dashboard)
+)

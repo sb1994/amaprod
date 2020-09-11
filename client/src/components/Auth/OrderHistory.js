@@ -6,7 +6,6 @@ class OrderHistory extends Component {
     let renderOrders
     let { orders } = this.props
     if (orders.length > 0) {
-      console.log(this.props.orders)
       renderOrders = orders.map((order, index) => {
         return <OrderHistoryListItem order={order} key={index} />
       })

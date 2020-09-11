@@ -2,6 +2,8 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { setLoggedUser, logoutUser } from '../../actions/userAuthActions'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons'
 import './style.css'
 import {
   Nav,
@@ -41,8 +43,20 @@ class Navigation extends Component {
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse id='basic-navbar-nav'>
           <Nav className='mr-auto'>
-            <Nav.Link href='#home'>Home</Nav.Link>
-            <Nav.Link href='/cart'>Cart {cartOutput}</Nav.Link>
+            <Nav.Link href='/dashboard'>
+              <img
+                src={user.profile_pic}
+                alt=''
+                srcset=''
+                className='rounded-circle img-fluid'
+                style={{ height: '35px' }}
+              />
+            </Nav.Link>
+            <Nav.Link href='/cart' className='mt-1'>
+              <span>
+                <FontAwesomeIcon icon={faShoppingCart} size='lg' /> {cartOutput}
+              </span>
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Fragment>
