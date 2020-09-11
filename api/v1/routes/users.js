@@ -49,28 +49,21 @@ router.post(
         quantity: cart[i].quantity,
       })
     }
-    console.log(Math.round(totalPrice))
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount: parseInt(totalPrice),
-      currency: 'usd',
-    })
-    console.log(paymentIntent)
-
-    // User.findById(user._id)
-    //   .then((user) => {
-    //     user.order_history.push(order)
-    //     user.save().then((savedUser) => {
-    //       User.findById(req.user.id)
-    //         // .sort({ 'order_history.order_date': 1 })
-    //         .populate('order_history.products.product')
-    //         .then((user) => {
-    //           res.json(user)
-    //         })
-    //     })
-    //   })
-    //   .catch((err) => {
-    //     console.log(err)
-    //   })
+    User.findById(user._id)
+      .then((user) => {
+        user.order_history.push(order)
+        user.save().then((savedUser) => {
+          User.findById(req.user.id)
+            // .sort({ 'order_history.order_date': 1 })
+            .populate('order_history.products.product')
+            .then((user) => {
+              res.json(user)
+            })
+        })
+      })
+      .catch((err) => {
+        console.log(err)
+      })
     // res.json(order)
   }
 )
