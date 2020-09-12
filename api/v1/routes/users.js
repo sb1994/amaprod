@@ -11,10 +11,13 @@ router.get(
   '/current',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    User.findById(req.user.id)
+    User.find({ _id: req.user.id })
+
       .populate('order_history.products.product')
+      .sort({ 'order_history.order_date': 1 })
       .then((user) => {
-        res.json(user)
+        console.log(user[0])
+        res.json(user[0])
       })
     // res.json({
     //   id: req.user.id,
@@ -151,6 +154,7 @@ router.post('/login', (req, res) => {
           profile_pic: user.profile_pic,
           email: user.email,
           cart: user.cart,
+          order_history: user.order_history,
         }
         jwt.sign(
           payload,

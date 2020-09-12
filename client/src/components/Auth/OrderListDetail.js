@@ -11,7 +11,7 @@ class OrderListDetail extends Component {
             <img
               src={product.product.image}
               className='img-fluid'
-              style={{ height: '200px' }}
+              style={{ height: '150px' }}
             />
           </div>
           <div className='col-md-9 col-sm-6 col-12'>

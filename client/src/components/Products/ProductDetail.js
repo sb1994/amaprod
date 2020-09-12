@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { getSelectedProduct } from '../../actions/productActions'
-import { addProductToCart } from '../../actions/userAuthActions'
+import { addProductToCart, getCurrentUser } from '../../actions/userAuthActions'
 import ProductReviewForm from './ProductReviewForm'
 import ProductReviewList from './ProductReviewList'
+import { checkPurchaseStatus } from '../../utils/functions'
+import { render } from 'react-dom'
 
 export class ProductDetail extends Component {
   constructor(props) {
@@ -14,6 +16,7 @@ export class ProductDetail extends Component {
 
   componentDidMount() {
     this.props.getSelectedProduct(this.props.match.params.id)
+    this.props.getCurrentUser()
   }
   handleAddToCart = () => {
     let { cart } = this.props.auth
@@ -31,7 +34,15 @@ export class ProductDetail extends Component {
     let { isAuthenticated } = this.props.auth
     let { user } = this.props.auth
 
-    if (product === undefined) {
+    // return (
+    //   <div className='container'>
+    //     <h1>Hello</h1>
+    //   </div>
+    // )
+
+    // console.log(user)
+
+    if (product === undefined && user.order_history === undefined) {
       return (
         <div className='container'>
           <div className='row'>
@@ -43,6 +54,14 @@ export class ProductDetail extends Component {
       )
     } else {
       let { reviews } = product
+
+      let alreadyPurchased = checkPurchaseStatus(product, user)
+      // console.log(alreadyPurchased)
+      // if (user.order_history !== undefined) {
+      //   console.log('orders not defined')
+      // } else {
+      //   console.log(order_history)
+      // }
       let alreadyReviewed
       let alreadyInCart = cart.some((item) => {
         return item.id === product._id
@@ -53,6 +72,34 @@ export class ProductDetail extends Component {
           return review.user._id === user._id
         })
       }
+
+      //renders if the user can review or has already purchased the product
+
+      let renderReviewForm
+
+      if (alreadyReviewed && alreadyPurchased) {
+        renderReviewForm = (
+          <div className='col-12'>
+            <p>you have already reviewed this product</p>
+          </div>
+        )
+      } else if (!alreadyReviewed && alreadyPurchased) {
+        renderReviewForm = (
+          <div className='col-12'>
+            <ProductReviewForm
+              product_id={product.product_id}
+              reviews={reviews}
+            />
+          </div>
+        )
+      } else {
+        renderReviewForm = (
+          <div className='col-12'>
+            <p>You need to purchase this item inorder to review it</p>
+          </div>
+        )
+      }
+
       return (
         <div className='container'>
           <div className='row'>
@@ -89,18 +136,16 @@ export class ProductDetail extends Component {
           </div>
           <hr />
           <div className='row'>
-            {alreadyReviewed ? (
+            {renderReviewForm}
+            {/* {alreadyReviewed ? (
               <div className='col-12'>
                 <p>you have already reviewed this product</p>
               </div>
             ) : (
               <div className='col-12'>
-                <ProductReviewForm
-                  product_id={product.product_id}
-                  reviews={reviews}
-                />
+                
               </div>
-            )}
+            )} */}
             <div className='col-12'>
               <ProductReviewList reviews={reviews} />
             </div>
@@ -121,4 +166,5 @@ const mapDispatchToProps = {}
 export default connect(mapStateToProps, {
   getSelectedProduct,
   addProductToCart,
+  getCurrentUser,
 })(ProductDetail)

@@ -16,7 +16,6 @@ export class Dashboard extends Component {
 
   render() {
     let { user } = this.props.auth
-    console.log(user.order_history)
     let renderOrderHistory
     if (user.order_history === undefined) {
       renderOrderHistory = <p>Loading</p>
@@ -27,9 +26,10 @@ export class Dashboard extends Component {
     }
     return (
       <div className='container'>
-        <h1>Dashboard</h1>
-        <DashboardAccount />
-        {renderOrderHistory}
+        <div className='row'>
+          <DashboardAccount />
+          {renderOrderHistory}
+        </div>
       </div>
     )
   }

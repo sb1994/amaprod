@@ -10,12 +10,7 @@ class OrderHistory extends Component {
         return <OrderHistoryListItem order={order} key={index} />
       })
     }
-    return (
-      <div className='col-12'>
-        <h1>Order History</h1>
-        {renderOrders}
-      </div>
-    )
+    return <div className='col-12 col-md-9'>{renderOrders}</div>
   }
 }
 

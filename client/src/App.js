@@ -15,6 +15,7 @@ import Register from './components/Auth/Register'
 import Dashboard from './components/Auth/Dashboard'
 import UserCart from './components/Auth/UserCart'
 import DashboardAccount from './components/Auth/DashboardAccount'
+import EditAccount from './components/Auth/EditAccount'
 import ProductDetail from './components/Products/ProductDetail'
 import ProductList from './components/Products/ProductList'
 
@@ -58,6 +59,7 @@ class App extends Component {
               path='/dashboard/account'
               component={DashboardAccount}
             />
+            <Route exact path='/account/edit' component={EditAccount} />
           </Switch>
         </Router>
       </Provider>

@@ -1,3 +1,5 @@
+import product from '../reducers/productReducer'
+
 export const checkReviewFormRender = (reviews, user_id) => {
   console.log(reviews)
   console.log(user_id)
@@ -28,4 +30,32 @@ export const returnTotalPrice = (cart) => {
     totalPrice = totalPrice + quantites[i] * prices[i]
   }
   return parseFloat(totalPrice).toFixed(2)
+}
+export const checkPurchaseStatus = ({ _id }, { order_history }) => {
+  // return orders
+  let checkedStatus = false
+  let filteredOrdersArray = order_history.map((order) => {
+    return order.products
+  })
+  let unfilterProducts = filteredOrdersArray.map((product, index) => {
+    return product
+  })
+  // let filteredProducts = unfilterProducts.map((product) => {
+  //   console.log(product)
+  // })
+
+  //checks wheter the item has alreay been purchased or not
+  for (let i = 0; i < unfilterProducts.length; i++) {
+    let products = unfilterProducts[i]
+    for (let y = 0; y < products.length; y++) {
+      // const element = products[i][y]
+      if (unfilterProducts[i][y].product._id !== _id) {
+        checkedStatus = false
+      } else {
+        checkedStatus = true
+      }
+    }
+  }
+
+  return checkedStatus
 }
