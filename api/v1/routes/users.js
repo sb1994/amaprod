@@ -1,77 +1,79 @@
-const express = require('express')
-const router = express.Router()
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
-const stripe = require('stripe')(process.env.STRIPE_API_KEY)
+const express = require("express");
+const router = express.Router();
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const stripe = require("stripe")(process.env.STRIPE_API_KEY);
 //models
-const User = require('../models/User')
-const passport = require('passport')
-router.get('/test', (req, res) => res.json({ msg: 'Users Works' }))
+const User = require("../models/User");
+const passport = require("passport");
+router.get("/test", (req, res) => res.json({ msg: "Users Works" }));
 router.get(
-  '/current',
-  passport.authenticate('jwt', { session: false }),
+  "/current",
+  passport.authenticate("jwt", { session: false }),
   (req, res) => {
     User.find({ _id: req.user.id })
 
-      .populate('order_history.products.product')
-      .sort({ 'order_history.order_date': 1 })
+      .populate("order_history.products.product")
+      .sort({ "order_history.order_date": -1 })
       .then((user) => {
-        console.log(user[0])
-        res.json(user[0])
-      })
-    // res.json({
-    //   id: req.user.id,
-    //   name: req.user.name,
-    //   email: req.user.email
-    // });
+        console.log(user[0].order_history);
+        // console.log(user[0].order_history.reverse());
+        // //sets
+        let reversedOrder = user[0].order_history.reverse();
+        user[0].order_history = reversedOrder;
+        res.json(user[0]);
+      });
   }
-)
-router.get('/', (req, res) => {
+);
+router.get("/", (req, res) => {
   User.find({})
-    .select('-password')
+    .select("-password")
     .then((users) => {
-      res.json({ users: users })
+      res.json({ users: users });
     })
-    .catch((err) => {})
-})
+    .catch((err) => {});
+});
 router.post(
-  '/purchase',
-  passport.authenticate('jwt', { session: false }),
+  "/purchase",
+  passport.authenticate("jwt", { session: false }),
   async (req, res) => {
-    let { totalPrice, cart } = req.body
-    let { user } = req
+    let { totalPrice, cart } = req.body;
+    let { user } = req;
 
     let order = {
       products: [],
       total_price: totalPrice,
       order_date: Date.now(),
-    }
+    };
     for (let i = 0; i < cart.length; i++) {
       order.products.push({
         product: cart[i].id,
         quantity: cart[i].quantity,
-      })
+      });
     }
     User.findById(user._id)
       .then((user) => {
-        user.order_history.push(order)
+        user.order_history.push(order);
         user.save().then((savedUser) => {
           User.findById(req.user.id)
             // .sort({ 'order_history.order_date': 1 })
-            .populate('order_history.products.product')
+            .populate("order_history.products.product")
             .then((user) => {
-              res.json(user)
-            })
-        })
+              let reversedOrder = user.order_history.reverse();
+              user.order_history = reversedOrder;
+              //  res.json(user[0]);
+              res.json(user);
+            });
+        });
       })
       .catch((err) => {
-        console.log(err)
-      })
+        console.log(err);
+      });
     // res.json(order)
   }
-)
-router.post('/register', (req, res) => {
-  const errors = {}
+);
+router.post("/register", (req, res) => {
+  const errors = {};
 
   //checks wether the username or email already exists
   User.findOne({
@@ -84,22 +86,22 @@ router.post('/register', (req, res) => {
   })
     .then((user) => {
       if (user) {
-        errors.email = 'Email or Name already exists'
-        return res.status(200).json(errors)
+        errors.email = "Email or Name already exists";
+        return res.status(200).json(errors);
       } else {
         const newUser = new User({
           name: req.body.name,
           email: req.body.email,
           profile_pic:
-            'http://www.culpepperandassociates.com/wp-content/uploads/2014/08/dummy-avatar.png',
+            "http://www.culpepperandassociates.com/wp-content/uploads/2014/08/dummy-avatar.png",
           password: req.body.password,
-        })
+        });
         // console.log(newUser);
         // res.json({ user: newUser })
         bcrypt.genSalt(10, (err, salt) => {
           bcrypt.hash(newUser.password, salt, (err, hash) => {
-            if (err) throw err
-            newUser.password = hash
+            if (err) throw err;
+            newUser.password = hash;
             newUser
               .save()
               .then((user) => {
@@ -109,7 +111,7 @@ router.post('/register', (req, res) => {
                   profile_pic: user.profile_pic,
                   email: user.email,
                   cart: user.cart,
-                }
+                };
                 jwt.sign(
                   payload,
                   process.env.SECRET,
@@ -118,28 +120,28 @@ router.post('/register', (req, res) => {
                     res.json({
                       success: true,
                       token: `${token}`,
-                    })
+                    });
                   }
-                )
+                );
               })
-              .catch((err) => res.json(err))
+              .catch((err) => res.json(err));
             // console.log(newUser);
-          })
-        })
+          });
+        });
       }
     })
-    .catch((err) => res.json(err))
+    .catch((err) => res.json(err));
   // // console.log(req.body);
-})
-router.post('/login', (req, res) => {
-  const { email, password } = req.body
+});
+router.post("/login", (req, res) => {
+  const { email, password } = req.body;
 
   // // //find user by email
   User.findOne({
     email: email,
   }).then((user) => {
     if (!user) {
-      return res.status(404).json({ email: 'User Not Found' })
+      return res.status(404).json({ email: "User Not Found" });
     }
     // console.log(user);
     // //check the password
@@ -155,7 +157,7 @@ router.post('/login', (req, res) => {
           email: user.email,
           cart: user.cart,
           order_history: user.order_history,
-        }
+        };
         jwt.sign(
           payload,
           process.env.SECRET,
@@ -164,13 +166,13 @@ router.post('/login', (req, res) => {
             res.json({
               success: true,
               token: `${token}`,
-            })
+            });
           }
-        )
+        );
       } else {
-        return res.status(200).json({ msg: 'password failed' })
+        return res.status(200).json({ msg: "password failed" });
       }
-    })
-  })
-})
-module.exports = router
+    });
+  });
+});
+module.exports = router;
