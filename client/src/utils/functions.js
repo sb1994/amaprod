@@ -40,9 +40,6 @@ export const checkPurchaseStatus = ({ _id }, { order_history }) => {
   let unfilterProducts = filteredOrdersArray.map((product, index) => {
     return product
   })
-  // let filteredProducts = unfilterProducts.map((product) => {
-  //   console.log(product)
-  // })
 
   //checks wheter the item has alreay been purchased or not
   for (let i = 0; i < unfilterProducts.length; i++) {
