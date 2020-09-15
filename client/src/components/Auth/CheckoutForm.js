@@ -9,7 +9,7 @@ class CheckoutForm extends Component {
     this.props.clearCart()
   }
   handlePurchaseClick = () => {
-    let { cart, user } = this.props.auth
+    let { cart } = this.props.auth
     let totalPrice = returnTotalPrice(cart)
     this.props.proceedWithPurchase(cart, totalPrice)
     this.props.history.push('/dashboard')

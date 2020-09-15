@@ -19,7 +19,6 @@ export class ProductDetail extends Component {
     this.props.getCurrentUser()
   }
   handleAddToCart = () => {
-    let { cart } = this.props.auth
     let { product } = this.props.product
     this.props.addProductToCart(product)
   }
@@ -31,7 +30,6 @@ export class ProductDetail extends Component {
     // console.log(this.props.product.product)
     let { product } = this.props.product
     let { cart } = this.props.auth
-    let { isAuthenticated } = this.props.auth
     let { user } = this.props.auth
 
     // return (
@@ -77,6 +75,7 @@ export class ProductDetail extends Component {
 
       let renderReviewForm
 
+      console.log(alreadyPurchased, alreadyReviewed)
       if (alreadyReviewed && alreadyPurchased) {
         renderReviewForm = (
           <div className='col-12'>
@@ -142,9 +141,7 @@ export class ProductDetail extends Component {
                 <p>you have already reviewed this product</p>
               </div>
             ) : (
-              <div className='col-12'>
-                
-              </div>
+              <div className='col-12'>ndsjnakj</div>
             )} */}
             <div className='col-12'>
               <ProductReviewList reviews={reviews} />
@@ -160,8 +157,6 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
   product: state.product,
 })
-
-const mapDispatchToProps = {}
 
 export default connect(mapStateToProps, {
   getSelectedProduct,

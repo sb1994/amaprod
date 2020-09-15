@@ -13,6 +13,12 @@ export class Dashboard extends Component {
       this.props.getCurrentUser()
     }
   }
+  componentDidUpdate(prevProps) {
+    console.log()
+    if (prevProps.auth.isAuthenticated !== this.props.auth.isAuthenticated) {
+      this.props.history.push('/')
+    }
+  }
 
   render() {
     let { user } = this.props.auth

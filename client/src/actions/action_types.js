@@ -9,6 +9,8 @@ export const SET_LOGGED_USER = 'SET_LOGGED_USER'
 //product action
 export const GET_PRODUCTS = 'GET_PRODUCTS'
 export const GET_PRODUCT = 'GET_PRODUCT'
+export const SET_PRODUCT_FILTER_TYPE = 'SET_PRODUCT_FILTER_TYPE'
+export const SET_PRODUCT_FILTER_TEXT = 'SET_PRODUCT_FILTER_TEXT'
 export const CREATE_PRODUCT_REVIEW = 'CREATE_PRODUCT_REVIEW'
 
 //cart Actions types

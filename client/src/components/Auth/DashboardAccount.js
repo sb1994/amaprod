@@ -21,20 +21,23 @@ class DashboardAccount extends Component {
           </div>
         </div>
         <div className='row'>
-          <div class='card-body'>
-            <ul class='list-group list-group-flush'>
-              <li class='list-group-item'>
-                <FontAwesomeIcon icon={faUser} size='lg' />{' '}
-                <span>{user.name}</span>
-              </li>
-              <li class='list-group-item'>
-                <FontAwesomeIcon icon={faAt} size='lg' />{' '}
-                <span>{user.email}</span>
-              </li>
-            </ul>
-          </div>
-          <div className='card-footer'>
-            <Link to='/account/edit'>Edit Profile</Link>
+          <div className='col-12'>
+            <div class='card-body'>
+              <ul class='list-group list-group-flush'>
+                <li class='list-group-item'>
+                  <FontAwesomeIcon icon={faUser} size='lg' />{' '}
+                  <span>{user.name}</span>
+                </li>
+                <li class='list-group-item'>
+                  <FontAwesomeIcon icon={faAt} size='lg' />{' '}
+                  <span>{user.email}</span>
+                </li>
+                <li className='list-group-item'>
+                  <Link to='/account/edit'>Edit Profile</Link>
+                </li>
+              </ul>
+            </div>
+            <div></div>
           </div>
         </div>
       </div>

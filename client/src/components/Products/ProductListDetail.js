@@ -10,19 +10,19 @@ export class ProductListDetail extends Component {
   render() {
     let { productOb } = this.props
     return (
-      <div className=' col-sm-6 col-md-3 col-6 productCard'>
+      <div className=' col-sm-6 col-md-3 col-12 productCard p-1'>
         <div className='row'>
           <img
+            className=''
             onClick={this.handleProductShow}
             src={productOb.image}
-            className='img-fluid'
             style={{ height: '300px' }}
           />
           <p onClick={this.handleProductShow}>{productOb.name}</p>
         </div>
         <div className='row'>
           <div className='col-6'>
-            <p>€{productOb.price}</p>
+            <strong>€{productOb.price}</strong>
           </div>
         </div>
       </div>

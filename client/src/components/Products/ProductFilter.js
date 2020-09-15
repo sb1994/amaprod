@@ -1,13 +1,17 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import {
+  setProductFilterText,
+  setProductFilterType,
+} from '../../actions/productActions'
 
 export class ProductFilter extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      name: '',
+      text: '',
       products: [],
       type: '',
     }
@@ -15,44 +19,51 @@ export class ProductFilter extends Component {
 
   handleInput = (e) => {
     this.setState({ [e.target.name]: e.target.value })
+    if (e.target.name === 'text') {
+      this.props.setProductFilterText(
+        e.target.value,
+        this.props.product.products,
+        this.state.type
+      )
+    } else {
+      this.setState({ [e.target.name]: e.target.value })
+      this.props.setProductFilterType(
+        e.target.value,
+        this.props.product.products,
+        this.state.name
+      )
+    }
   }
 
   render() {
     let { products } = this.props.product
-    console.log(products)
     let typesArray = products.map((product) => {
       return product.type
     })
     let typeSet = new Set(typesArray)
     let uniqueTypeArray = [...typeSet]
-    // const unique = [...new Set(products.map((product) => product.type))]
-
-    console.log(uniqueTypeArray)
-    // console.log(unique)
     return (
-      <div className='col-12'>
-        <h2>ProductFilter</h2>
-        {/* <div className='col-12 col-md-8 offset-sm-2 container-search-input mb-2'> */}
+      <div className='col-12 mt-3'>
         <div className='form-group'>
           <input
             type='text'
-            name='searchText'
-            onChange={this.handleSearchInput}
-            value={this.state.name}
+            name='text'
+            onChange={this.handleInput}
+            value={this.state.text}
             className='form-control'
             placeholder=' Search for products'
           />
         </div>
-        {/* </div> */}
         <div className='form-group'>
           <select
             name='type'
             onChange={this.handleInput}
             value={this.state.type}
           >
-            <option> None</option>
-            {uniqueTypeArray.map((type) => (
-              <option value={type}>{type}</option>
+            {uniqueTypeArray.map((type, index) => (
+              <option key={index} value={type}>
+                {type}
+              </option>
             ))}
           </select>
         </div>
@@ -70,5 +81,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {}
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(ProductFilter)
+  connect(mapStateToProps, { setProductFilterText, setProductFilterType })(
+    ProductFilter
+  )
 )

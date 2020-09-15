@@ -2,6 +2,8 @@ import {
   GET_PRODUCTS,
   GET_PRODUCT,
   CREATE_PRODUCT_REVIEW,
+  SET_PRODUCT_FILTER_TEXT,
+  SET_PRODUCT_FILTER_TYPE,
 } from '../actions/action_types'
 
 const initialState = {
@@ -9,6 +11,8 @@ const initialState = {
   products: [],
   productCount: '',
   filteredProducts: [],
+  type: '',
+  text: '',
 }
 
 const product = (state = initialState, action) => {
@@ -18,6 +22,16 @@ const product = (state = initialState, action) => {
         ...state,
         products: action.payload.products,
         productCount: action.payload.totalCount,
+      }
+    case SET_PRODUCT_FILTER_TYPE:
+      return {
+        ...state,
+        type: action.payload,
+      }
+    case SET_PRODUCT_FILTER_TEXT:
+      return {
+        ...state,
+        text: action.payload,
       }
     case GET_PRODUCT:
       return {

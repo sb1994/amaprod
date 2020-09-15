@@ -3,6 +3,8 @@ const router = express.Router()
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const stripe = require('stripe')(process.env.STRIPE_API_KEY)
+const nodemailer = require('nodemailer')
+
 //models
 const User = require('../models/User')
 const passport = require('passport')
@@ -56,6 +58,30 @@ router.post(
             // .sort({ 'order_history.order_date': 1 })
             .populate('order_history.products.product')
             .then((user) => {
+              let transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                  user: process.env.EMAIL_ADDRESS,
+                  pass: process.env.EMAIL_PASSWORD,
+                },
+              })
+              console.log(transporter)
+              console.log(user.email)
+              let mailOptions = {
+                from: process.env.EMAIL_ADDRESS,
+                to: user.email,
+                subject: 'Thank You for Ordering from AmaProd',
+                text:
+                  '<p>Dear Customer, thank you for placing your order with us. Please come again!<p>',
+              }
+
+              transporter.sendMail(mailOptions, function (error, info) {
+                if (error) {
+                  console.log(error)
+                } else {
+                  console.log('Email sent: ' + info.response)
+                }
+              })
               let reversedOrder = user.order_history.reverse()
               user.order_history = reversedOrder
               //  res.json(user[0]);

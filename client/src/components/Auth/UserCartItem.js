@@ -20,7 +20,7 @@ class UserCartItem extends Component {
     this.props.addToProductQuantity(product._id)
   }
   handleRemoveProductFromCart = () => {
-    let { user, cart } = this.props.auth
+    // let { user, cart } = this.props.auth
     let { product } = this.props.product
     this.props.removeFromProductQuantity(product._id)
     // console.log(product)
