@@ -1,62 +1,62 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import {
   setProductFilterText,
   setProductFilterType,
-} from '../../actions/productActions'
+} from "../../actions/productActions";
 
 export class ProductFilter extends Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
-      text: '',
+      text: "",
       products: [],
-      type: '',
-    }
+      type: "",
+    };
   }
 
   handleInput = (e) => {
-    this.setState({ [e.target.name]: e.target.value })
-    if (e.target.name === 'text') {
+    this.setState({ [e.target.name]: e.target.value });
+    if (e.target.name === "text") {
       this.props.setProductFilterText(
         e.target.value,
         this.props.product.products,
         this.state.type
-      )
+      );
     } else {
-      this.setState({ [e.target.name]: e.target.value })
+      this.setState({ [e.target.name]: e.target.value });
       this.props.setProductFilterType(
         e.target.value,
         this.props.product.products,
         this.state.name
-      )
+      );
     }
-  }
+  };
 
   render() {
-    let { products } = this.props.product
+    let { products } = this.props.product;
     let typesArray = products.map((product) => {
-      return product.type
-    })
-    let typeSet = new Set(typesArray)
-    let uniqueTypeArray = [...typeSet]
+      return product.type;
+    });
+    let typeSet = new Set(typesArray);
+    let uniqueTypeArray = [...typeSet];
     return (
-      <div className='col-12 mt-3'>
-        <div className='form-group'>
+      <div className="col-12 mt-3">
+        <div className="form-group">
           <input
-            type='text'
-            name='text'
+            type="text"
+            name="text"
             onChange={this.handleInput}
             value={this.state.text}
-            className='form-control'
-            placeholder=' Search for products'
+            className="form-control"
+            placeholder=" Search for products"
           />
         </div>
-        <div className='form-group'>
+        <div className="form-group">
           <select
-            name='type'
+            name="type"
             onChange={this.handleInput}
             value={this.state.type}
           >
@@ -70,18 +70,18 @@ export class ProductFilter extends Component {
 
         {/* <div className="col-12">{renderTypes}</div> */}
       </div>
-    )
+    );
   }
 }
 
 const mapStateToProps = (state) => ({
   product: state.product,
-})
+});
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {};
 
 export default withRouter(
   connect(mapStateToProps, { setProductFilterText, setProductFilterType })(
     ProductFilter
   )
-)
+);
