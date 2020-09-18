@@ -116,7 +116,7 @@ router.post('/register', (req, res) => {
           name: req.body.name,
           email: req.body.email,
           profile_pic:
-            'http://www.culpepperandassociates.com/wp-content/uploads/2014/08/dummy-avatar.png',
+            'https://toppng.com/uploads/preview/donna-picarro-dummy-avatar-115633298255iautrofxa.png',
           password: req.body.password,
         })
         // console.log(newUser);
