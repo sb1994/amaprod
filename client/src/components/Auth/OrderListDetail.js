@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 class OrderListDetail extends Component {
   render() {
     let { product } = this.props
+    console.log(product)
     return (
       <div className='col-12'>
         <div className='row'>
@@ -16,6 +17,7 @@ class OrderListDetail extends Component {
           </div>
           <div className='col-md-9 col-sm-6 col-12'>
             <p>{product.product.name}</p>
+            {/* <p>{product.product}</p> */}
           </div>
         </div>
       </div>
