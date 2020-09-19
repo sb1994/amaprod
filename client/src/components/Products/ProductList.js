@@ -24,7 +24,7 @@ export class ProductList extends Component {
   render() {
     let { products, text, type } = this.props.product
     let renderProducts
-    if (products === undefined) {
+    if (products === undefined || products.length === 0) {
       renderProducts = (
         <div className='col-12'>
           {' '}
@@ -66,6 +66,12 @@ export class ProductList extends Component {
       renderProducts = typeFilterProducts.map((product) => {
         return <ProductListDetail productOb={product} key={product._id} />
       })
+    } else if (products.length === 0) {
+      renderProducts = (
+        <div className='col-12'>
+          <p>Sorry No Results Returned</p>
+        </div>
+      )
     }
 
     return (
@@ -76,7 +82,13 @@ export class ProductList extends Component {
           </div>
         </div>
         <div className='col-md-12'>
-          <div className='row'>{renderProducts}</div>
+          {renderProducts.length === 0 ? (
+            <div className='row'>
+              <p>Sorry No Products returned</p>
+            </div>
+          ) : (
+            <div className='row'>{renderProducts}</div>
+          )}
         </div>
       </div>
     )

@@ -13,8 +13,6 @@ class DashboardAccount extends Component {
           <div className='col-12 text-center'>
             <img
               src={user.profile_pic}
-              alt=''
-              srcset=''
               className='img-fluid rounded-circle'
               style={{ height: '100px' }}
             />
@@ -22,13 +20,13 @@ class DashboardAccount extends Component {
         </div>
         <div className='row'>
           <div className='col-12'>
-            <div class='card-body'>
-              <ul class='list-group list-group-flush'>
-                <li class='list-group-item'>
+            <div className='card-body'>
+              <ul className='list-group list-group-flush'>
+                <li className='list-group-item'>
                   <FontAwesomeIcon icon={faUser} size='lg' />{' '}
                   <span>{user.name}</span>
                 </li>
-                <li class='list-group-item'>
+                <li className='list-group-item'>
                   <FontAwesomeIcon icon={faAt} size='lg' />{' '}
                   <span>{user.email}</span>
                 </li>
