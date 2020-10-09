@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
 // Create Schema
 const UserSchema = new Schema({
@@ -20,30 +20,35 @@ const UserSchema = new Schema({
   },
   website: {
     type: String,
+    default: "",
   },
   location: {
     type: String,
+
+    default: "",
   },
   status: {
     type: String,
-    default: 'Customer',
+    default: "Customer",
   },
   bio: {
     type: String,
+    default: "",
   },
   githubusername: {
     type: String,
+    default: "",
   },
   cards: { type: Array, default: [] },
   friends: [
     {
       user: {
         type: Schema.Types.ObjectId,
-        ref: 'users',
+        ref: "users",
       },
       status: {
         type: String,
-        default: 'pending',
+        default: "pending",
       },
     },
   ],
@@ -53,7 +58,7 @@ const UserSchema = new Schema({
         {
           product: {
             type: Schema.Types.ObjectId,
-            ref: 'products',
+            ref: "products",
           },
         },
       ],
@@ -73,11 +78,11 @@ const UserSchema = new Schema({
     {
       user: {
         type: Schema.Types.ObjectId,
-        ref: 'users',
+        ref: "users",
       },
       status: {
         type: String,
-        default: 'pending',
+        default: "pending",
       },
     },
   ],
@@ -89,6 +94,6 @@ const UserSchema = new Schema({
     type: Boolean,
     default: false,
   },
-})
+});
 
-module.exports = User = mongoose.model('users', UserSchema)
+module.exports = User = mongoose.model("users", UserSchema);

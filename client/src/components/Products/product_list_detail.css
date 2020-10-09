@@ -1,8 +1,3 @@
 .productCard {
-  transition: transfrom 100ms;
   cursor: pointer;
-}
-
-.productCard:hover {
-  transform: scale(1.1);
 }
